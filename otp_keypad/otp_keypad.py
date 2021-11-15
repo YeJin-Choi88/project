@@ -1,5 +1,4 @@
 import serial
-import ex
 
 arduino = serial.Serial('COM3', 9600)
 
@@ -9,6 +8,22 @@ print("Current OTP:", totp.now())
 
 a = pyotp.totp.TOTP('JBSWY3DPEHPK3PXP').provisioning_uri(name='yejin@google.com', issuer_name='Secure App')
 b = pyotp.hotp.HOTP('JBSWY3DPEHPK3PXP').provisioning_uri(name="yejin@google.com", issuer_name="Secure App", initial_count=0)
+
+
+print('serial ' + serial.__version__)
+
+# Set a PORT Number & baud rate
+PORT = 'COM4'
+BaudRate = 9600
+
+ARD= serial.Serial(PORT,BaudRate)
+
+A=1234
+
+A=str(A)
+Trans="Q" + A
+Trans= Trans.encode('utf-8')
+
 
 while(True):
 
@@ -21,8 +36,12 @@ while(True):
         break
 password = int(c.strip())
 otp = int(totp.now())
-if(password == otp):
-    print("열렸습니다")
-else:
-    print(otp)
-    print("닫혔습니다.")
+
+
+
+while(True):
+    if(password == otp):
+        ARD.write(Trans)
+        
+    else:
+        break
